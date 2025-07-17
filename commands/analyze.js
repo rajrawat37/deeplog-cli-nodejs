@@ -16,8 +16,8 @@ function colorize(line) {
 
 // Format long process names for CLI display
 function formatProcessName(name, maxLength = 30) {
-  if (name.length <= maxLength) return name.padEnd(maxLength);
-  return name.slice(0, maxLength - 3) + '...';
+  if (name.length <= maxLength) return name.padEnd(maxLength); //If the name is shorter or equal to maxLength, it is returned after padding extra spaces to the right.
+  return name.slice(0, maxLength - 3) + '...'; // If name is longer than maxLength, it is truncated and '...' is appended.
 }
 
 const analyze = new Command('analyze');
@@ -42,17 +42,19 @@ analyze
     for (let line of lines) {
       const match = line.match(processRegex);
       if (match) {
-        const proc = match[1].trim().replace(/\\\//g, '/');
-        if (proc.length < 2 || /[%@]/.test(proc)) continue;
-        processCounts[proc] = (processCounts[proc] || 0) + 1;
+        const proc = match[1].trim().replace(/\\\//g, '/'); //  removes any surrounding whitespace & converts escaped slashes (\/) into real slashes (/)
+        if (proc.length < 2 || /[%@]/.test(proc)) continue; // Skips invalid or placeholder names: Very short names like %s, %@
+        processCounts[proc] = (processCounts[proc] || 0) + 1; // (undefined || 0 becomes 0) or (3 || 0 becomes 3)
       }
     }
 
     const topProcesses = Object.entries(processCounts)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
-      .map(([proc, count]) => ({ proc, count }));
+      .sort((a, b) => b[1] - a[1]) //  sorts them by count descending (most used process first).
+      .slice(0, 5) // keeps only the top 5 processes.
+      .map(([proc, count]) => ({ proc, count })); // changes each array pair into a cleaner object format
 
+
+    // 📊 Print Top Processes with Bar Charts
     if (topProcesses.length) {
       console.log(chalk.cyan('\n🧠 Top Processes:'));
       const maxProcCount = topProcesses[0].count;
@@ -65,7 +67,7 @@ analyze
     }
 
     // 📊 Log Level Count
-    let errorCount = 0, warnCount = 0, infoCount = 0;
+    let errorCount = 0, warnCount = 0, infoCount = 0, othersCount = 0;
     const freq = {};
 
     console.log(chalk.cyan('\n🔍 Analyzing logs...\n'));
@@ -121,7 +123,7 @@ analyze
 
 function printProcessBar(label, count, max, colorFn) {
   const barLength = 20;
-  const filledLength = Math.round((count / max) * barLength);
+  const filledLength = Math.round((count / max) * barLength); // Find relative proportion of this item compared to the highest value and then convert the fraction into characters, by multiplying by the bar length.
   const bar = colorFn('█'.repeat(filledLength).padEnd(barLength));
   return `  ${label} ${bar} ${String(count).padStart(4)}`;
 }
