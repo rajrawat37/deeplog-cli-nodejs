@@ -4,6 +4,10 @@
 
 > Built with Node.js. Supports colorized CLI output, JSON formatting, compression, and more.
 
+<img width="1727" height="877" alt="image" src="https://github.com/user-attachments/assets/38b0f693-2dab-449f-a3e6-8d5016f88ec6" />
+
+
+
 ---
 
 ## 🚀 Features
