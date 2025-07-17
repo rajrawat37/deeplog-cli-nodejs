@@ -4,6 +4,8 @@ import {Command} from 'commander';
 import chalk from 'chalk';
 import fs from 'fs';
 import { spawn } from 'child_process';
+import path from 'path';
+import zlib from 'zlib';
 
 // Initialize the CLI parser
 const program = new Command();
@@ -19,20 +21,25 @@ program.command('fetch')
     .option('-l, --last <time>', 'Specify the time range for fetching logs')
     .option('-p, --predicate <expression>', 'Add a predicate filter for the logs')
     .option('-s, --style <style>', 'Specify the output style: syslog (default) or json')
-    .action(({ last, output, predicate, style}) => {
+    .option('-d, --delete-original', 'Delete the original log file after compression')
+    .action(({ last, output, predicate, style, deleteOriginal}) => {
 
              if (!last || !output) {
                 console.error('❌ Please provide both --last and --output options');
                 process.exit(1);
             }
 
-            const dir = output.split('/').slice(0, -1).join('/');
+            const dir = path.dirname(output);
+            const base = path.basename(output, path.extname(output));
+            const ext = (style === 'json') ? '.json' : '.log';
+            output = path.join(dir, base + ext);
             // dir stores name if in the ouput path enters the directory name in the terminal
             // !fs.existsSync(dir)means if the folder does not exist in current working directory then create the directory
             if (dir && !fs.existsSync(dir)) {
               fs.mkdirSync(dir, { recursive: true });
             }
 
+         
             console.log(chalk.green(`🚀 Fetching logs from past ${last}...`));
             
             // spawn - It is used to launch a new process with the specified command and arguments.
@@ -44,7 +51,8 @@ program.command('fetch')
             if(style){
                 args.push('--style', style);
             }
-            
+
+
             const child = spawn('log', args);
 
             
@@ -78,6 +86,23 @@ program.command('fetch')
 
             stream.on('finish', () => {
                 console.log(chalk.green('✅ Log file write completed.'));
+                const zipPath = output + '.gz';
+                const zipStream = fs.createWriteStream(zipPath);
+                const gzip = zlib.createGzip();
+
+                fs.createReadStream(output)
+                    .pipe(gzip)
+                    .pipe(zipStream)
+                    .on('finish', () => {
+                        console.log(chalk.green(`📦 Compressed to ${zipPath}`));
+
+                        if (deleteOriginal) {
+                            fs.unlinkSync(output);
+                            console.log(chalk.gray(`🗑️  Deleted original log file: ${output}`));
+                        } else {
+                            console.log(chalk.yellow('⚠️  Original log file retained.'));
+                        }
+                    });
             });
 
     });
@@ -86,3 +111,8 @@ program.parse(process.argv);
 
 // Export the program for testing or other purposes
 export default program;
+
+
+
+// Use this in terminal to run the script
+// node bin/index.js fetch --last 10m --output logs/error.log --predicate 'eventMessage CONTAINS "error"' --style json
