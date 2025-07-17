@@ -17,7 +17,9 @@ program.command('fetch')
     .description('Fetch logs from MacOs')
     .option('-o, --output <path>', 'Output file path for logs')
     .option('-l, --last <time>', 'Specify the time range for fetching logs')
-    .action(({ last, output }) => {
+    .option('-p, --predicate <expression>', 'Add a predicate filter for the logs')
+    .option('-s, --style <style>', 'Specify the output style: syslog (default) or json')
+    .action(({ last, output, predicate, style}) => {
 
              if (!last || !output) {
                 console.error('❌ Please provide both --last and --output options');
@@ -36,6 +38,13 @@ program.command('fetch')
             // spawn - It is used to launch a new process with the specified command and arguments.
             // 'log' is the command to be executed, and args are the command line arguments
             const args = ['show', '--last', last];
+            if (predicate) {
+              args.push('--predicate', predicate);
+            }
+            if(style){
+                args.push('--style', style);
+            }
+            
             const child = spawn('log', args);
 
             
