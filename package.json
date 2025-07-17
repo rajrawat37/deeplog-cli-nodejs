@@ -1,9 +1,9 @@
 {
   "name": "splunk-cli-parser",
   "version": "1.0.0",
-  "type" :"module",
+  "type": "module",
   "bin": {
-  "splunk-cli-parser": "./bin/index.js"
+    "deeplog": "./bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
