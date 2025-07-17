@@ -34,9 +34,6 @@ git clone https://github.com/your-username/deeplog-cli-nodejs.git
 cd deeplog-cli-nodejs
 npm install
 chmod +x bin/index.js
-
-    Optionally add to your PATH or link globally:
-
 npm link
 
 💡 Usage
@@ -90,16 +87,6 @@ deeplog-cli-nodejs/
 │ └── analyze.js # Analyze logs command
 ├── package.json
 ├── README.md
-
-🧩 Planned Features
-
-    🔔 Realtime log tailing
-
-    📧 Email or webhook notifications for critical logs
-
-    🌐 Web UI integration
-
-    🧠 AI-based log anomaly detection
 
 🛠️ Requirements
     macOS (uses log show)
