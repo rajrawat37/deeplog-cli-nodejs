@@ -9,11 +9,6 @@ import path from 'path';
 const highlightKeywords = ['error', 'fail', 'timeout', 'disconnect'];
 const regexKeywords = new RegExp(highlightKeywords.join('|'), 'gi');
 
-// Color matched keywords in log lines
-function colorize(line) {
-  return line.replace(regexKeywords, (match) => chalk.redBright.bold(match));
-}
-
 // Format long process names for CLI display
 function formatProcessName(name, maxLength = 30) {
   if (name.length <= maxLength) return name.padEnd(maxLength); //If the name is shorter or equal to maxLength, it is returned after padding extra spaces to the right.
