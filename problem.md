@@ -8,7 +8,7 @@ Modern operating systems like macOS generate vast amounts of system logs every m
 - Lacking summarized insights
 - Inaccessible to developers through simple CLI tooling
 
-There is a need for a developer-focused, flexible, and intelligent CLI tool that can **fetch**, **filter**, **analyze**, and **summarize** macOS logs directly from the terminal.
+There is a need for a flexible and intelligent CLI tool that can **fetch**, **filter**, **analyze**, and **summarize** macOS logs directly from the terminal.
 
 ---
 
@@ -19,5 +19,4 @@ There is a need for a developer-focused, flexible, and intelligent CLI tool that
 - 📦 Easy access to macOS logs via native tools like `log show` and `log stream`
 - 🔍 On-demand filtering, searching, and querying of logs
 - 📊 Summary reports of critical system events (errors, VPN usage, failed auth, etc.)
-- 🧩 Plugin support for custom parsing logic
 - 📁 Export capabilities in JSON/Markdown/HTML
