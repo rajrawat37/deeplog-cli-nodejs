@@ -1,4 +1,4 @@
-# 🕵️‍♂️ deeplog - macOS Log Analyzer CLI
+# deeplog - macOS Log Analyzer CLI
 
 **deeplog** is a powerful and developer-friendly command-line tool that helps you **fetch**, **filter**, **analyze**, and **summarize** macOS system logs directly from the terminal.
 
@@ -10,15 +10,15 @@
 
 ---
 
-## 🚀 Features
+## Features
 
-- 📥 Fetch system logs using native `log` command
-- 🎯 Apply custom `--predicate` filters
-- 🧾 Choose log format: `syslog` or `json`
-- 💾 Save logs to custom file path (auto-creates folders)
-- 📦 Automatically compress logs (`.gz`)
-- 🗑️ Optionally delete original log file after compression
-- 📊 Analyze logs:
+- Fetch system logs using native `log` command
+- Apply custom `--predicate` filters
+- Choose log format: `syslog` or `json`
+- Save logs to custom file path (auto-creates folders)
+- Automatically compress logs (`.gz`)
+- Optionally delete original log file after compression
+- Analyze logs:
   - Keyword highlights: `error`, `fail`, `timeout`, `disconnect`
   - Count of errors, warnings, info
   - Top 5 frequent messages
@@ -27,7 +27,7 @@
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 git clone https://github.com/your-username/deeplog-cli-nodejs.git
